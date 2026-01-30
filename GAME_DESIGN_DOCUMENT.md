@@ -5,11 +5,14 @@
 
 ## 1. Vision Statement
 
-An **epic space fantasy** tower defense experience featuring:
+An **epic space fantasy territory control tower defense** experience featuring:
+- **Three Unique Factions** - StarCraft-inspired races with distinct playstyles and mechanics
+- **Territory Control** - Capture and expand zones to grow your empire
+- **Faction-Specific Towers** - Each race builds unique structures with special abilities
+- **Resource Mechanics** - Zerg creep expansion, Terran supply depots, Protoss pylon power
+- **Conquest Mode** - Destroy the enemy base and take over the map
 - **Next-generation WebGL graphics** - PBR materials, volumetric lighting, chromatic aberration
-- **Massive particle systems** - Nebula explosions, plasma beams, warp effects
 - **Playable Heroes** - Move them around the battlefield for strategic advantage
-- **Crazy alien creatures** - Fun, silly names, wild designs
 - **Cross-platform** - Buttery smooth on desktop AND mobile
 
 ---
@@ -45,7 +48,256 @@ ENEMIES (THE VOID HORDE)
 
 ---
 
-## 3. Tech Stack (Next-Gen Focus)
+## 3. Faction System (NEW!)
+
+### Overview
+Players choose one of three factions, each with unique mechanics, towers, and playstyles. Inspired by StarCraft but with our own cosmic twist.
+
+### THE IRON DOMINION (Terran-inspired)
+**Playstyle:** Versatile, defensive, mechanical
+**Theme:** Military industrial complex meets space marines
+
+```
+FACTION MECHANICS
+├── Supply Depots: Build to increase unit/tower cap
+├── Bunkers: Load infantry into structures for bonus damage
+├── Repair Drones: Structures slowly auto-repair
+├── Siege Mode: Some towers can deploy for +damage/-mobility
+└── Orbital Drops: Call down reinforcements anywhere you control
+
+BUILDING RULES
+├── Build anywhere in controlled territory
+├── No special terrain requirements
+├── Can lift off and relocate some buildings (slow)
+└── Structures have heavy armor, slow to build
+
+COLOR PALETTE
+├── Primary: Steel gray (#5C5C5C), Military green (#4A5D23)
+├── Accent: Warning orange (#FF6B00), Command blue (#3B82F6)
+└── Glow: Industrial yellow (#FFD93D)
+```
+
+### THE SWARM COLLECTIVE (Zerg-inspired)
+**Playstyle:** Aggressive expansion, overwhelming numbers, organic
+**Theme:** Alien hive mind, bio-horror, rapid evolution
+
+```
+FACTION MECHANICS
+├── CREEP (THE GOO): Must spread creep to build - this is critical!
+│   ├── Creep Tumors: Spreads creep in radius, can spawn more tumors
+│   ├── Hatcheries: Major creep source, production building
+│   ├── Buildings OFF creep: Cannot function, slowly die
+│   └── Creep provides: Vision, +movement speed, healing for Swarm units
+├── Mutation: Towers can evolve mid-game into different forms
+├── Spawn Larvae: All production comes from hatcheries
+├── Regeneration: All Swarm units/structures heal over time on creep
+└── Burrow: Units can hide underground, ambush enemies
+
+BUILDING RULES
+├── MUST build on creep (goo) - no exceptions!
+├── Creep spreads slowly from Hatcheries and Creep Tumors
+├── Losing creep source = buildings start dying
+├── Buildings are cheap but fragile
+└── Can recycle buildings back into resources
+
+CREEP EXPANSION SYSTEM
+├── Starting: Main Hatchery provides initial creep radius (15 tiles)
+├── Creep Tumors: Cost 50 minerals, spread creep +8 tiles, 30s to mature
+├── Expansion: Build new Hatchery on existing creep edge to expand
+├── Speed: Creep spreads 1 tile per 5 seconds
+├── Contested: Enemy buildings/units on creep slow its spread
+└── Receding: If creep source destroyed, creep recedes slowly
+
+COLOR PALETTE
+├── Primary: Carapace purple (#4A0080), Flesh pink (#FF1493)
+├── Creep: Toxic green goo (#39FF14), Slime (#7FFF00)
+├── Accent: Bio-luminescent cyan (#00FFFF)
+└── Blood: Alien orange (#FF4500)
+```
+
+### THE ETERNAL ASCENDANCY (Protoss-inspired)
+**Playstyle:** Expensive but powerful, shields, psionic abilities
+**Theme:** Ancient aliens, crystal technology, transcendent warriors
+
+```
+FACTION MECHANICS
+├── PYLON POWER: Buildings must be in pylon power radius
+│   ├── Pylons project power field (10 tile radius)
+│   ├── Buildings outside field: Disabled, shields don't recharge
+│   ├── Destroying pylons cripples enemy base
+│   └── Pylons can be warped in (faster build if in existing field)
+├── Shields: All units/buildings have regenerating shields
+├── Warp-In: Build structures anywhere in power field (faster)
+├── Chrono Boost: Speed up production/research temporarily
+└── Recall: Teleport units back to base in emergency
+
+BUILDING RULES
+├── MUST build in pylon power field
+├── Pylons are critical infrastructure (protect them!)
+├── Buildings are expensive but tanky (shields + armor)
+├── Warp-in is instant if in powered area
+└── Structures have powerful abilities but high cost
+
+COLOR PALETTE
+├── Primary: Royal gold (#FFD700), Void purple (#6B21A8)
+├── Shields: Electric blue (#00BFFF), Energy cyan (#00FFFF)
+├── Crystal: Pink (#FF69B4), Teal (#008080)
+└── Psi: Bright white glow (#FFFFFF)
+```
+
+### Faction Selection Screen
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    CHOOSE YOUR FACTION                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                              │
+│   ┌─────────────┐  ┌─────────────┐  ┌─────────────┐        │
+│   │   ⚙️ IRON   │  │  🦠 SWARM   │  │ 💎 ETERNAL │        │
+│   │  DOMINION   │  │ COLLECTIVE  │  │ ASCENDANCY │        │
+│   │             │  │             │  │             │        │
+│   │  [Balanced] │  │[Aggressive] │  │  [Powerful] │        │
+│   │             │  │             │  │             │        │
+│   │ Build       │  │ Spread the  │  │ Pylon power │        │
+│   │ anywhere    │  │ creep/goo   │  │ required    │        │
+│   │             │  │ to expand   │  │             │        │
+│   └─────────────┘  └─────────────┘  └─────────────┘        │
+│                                                              │
+│   Difficulty:  ★☆☆        ★★☆          ★★★               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 4. Territory Control System (NEW!)
+
+### Map Structure
+```
+MAP ZONES
+├── Starting Base: Your main structure, lose this = game over
+├── Expansion Points: Capturable resource nodes
+├── Neutral Zones: Unclaimed territory, free to build
+├── Contested Zones: Being fought over
+├── Enemy Territory: Must destroy enemy presence to claim
+└── Chokepoints: Strategic narrow passages
+
+ZONE STATES
+├── Controlled (Green): You own it, can build freely
+├── Contested (Yellow): Active combat, limited building
+├── Neutral (Gray): Unclaimed, first to build claims it
+├── Enemy (Red): Must clear all enemy structures to claim
+└── Corrupted (Purple): Special zones with hazards/bonuses
+```
+
+### Capturing Territory
+```
+CAPTURE MECHANICS
+├── Build a structure in neutral zone = claim zone
+├── Destroy all enemy structures in zone = contested
+├── Build your structure in contested zone = claim zone
+├── Zones provide resources, vision, and build space
+└── Larger zones = more valuable but harder to defend
+
+FACTION-SPECIFIC CAPTURE
+├── Iron Dominion: Plant flag, structure lands from orbit
+├── Swarm Collective: Spread creep into zone, then build
+└── Eternal Ascendancy: Warp in pylon, then power other buildings
+```
+
+### Resources & Economy
+```
+RESOURCES
+├── Minerals: Primary resource, gathered from nodes
+│   ├── Starting: 500
+│   ├── Passive income: 10/second from main base
+│   └── Expansion bonus: +5/second per controlled zone
+├── Gas (Advanced): Secondary resource for upgrades
+│   ├── Starting: 0
+│   ├── Requires: Refinery/Extractor/Assimilator on gas node
+│   └── Used for: Tier 3+ structures, upgrades, abilities
+└── Supply: Unit/structure cap
+    ├── Starting: 10/15 (varies by faction)
+    ├── Increase: Build supply structures
+    └── Max: 200
+
+ECONOMY BUILDINGS
+├── Iron Dominion: Command Center, Refinery, Supply Depot
+├── Swarm Collective: Hatchery, Extractor, Overlord (mobile supply)
+└── Eternal Ascendancy: Nexus, Assimilator, Pylon (power + supply)
+```
+
+### Map Example
+```
+┌────────────────────────────────────────────────────────────────┐
+│                         CONQUEST MAP                            │
+│                                                                  │
+│     [ENEMY BASE]              [Gas]              [ENEMY BASE]   │
+│         🔴                      ⛽                    🔴          │
+│          │                       │                     │         │
+│          ▼                       ▼                     ▼         │
+│     ┌─────────┐            ┌─────────┐           ┌─────────┐   │
+│     │ ZONE A  │────────────│ ZONE B  │───────────│ ZONE C  │   │
+│     │ [Mine]  │            │[Central]│           │ [Mine]  │   │
+│     └────┬────┘            └────┬────┘           └────┬────┘   │
+│          │                      │                     │         │
+│          │      ┌─────────┐     │     ┌─────────┐    │         │
+│          └──────│ ZONE D  │─────┴─────│ ZONE E  │────┘         │
+│                 │  [Gas]  │           │  [Gas]  │              │
+│                 └────┬────┘           └────┬────┘              │
+│                      │                     │                    │
+│                      ▼                     ▼                    │
+│                 ┌─────────┐           ┌─────────┐              │
+│                 │ ZONE F  │───────────│ ZONE G  │              │
+│                 │ [Mine]  │           │ [Mine]  │              │
+│                 └────┬────┘           └────┬────┘              │
+│                      │                     │                    │
+│                      ▼                     ▼                    │
+│                [YOUR BASE]           [YOUR BASE]                │
+│                    🟢                     🟢                     │
+│                 (1v1 or 2v2 starting positions)                 │
+└────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 5. Victory Conditions (NEW!)
+
+### Conquest Mode (Primary)
+```
+WIN CONDITIONS
+├── Destroy enemy main base (Command Center/Hatchery/Nexus)
+├── Control 75% of map zones for 5 minutes
+└── Enemy surrenders
+
+LOSE CONDITIONS
+├── Your main base is destroyed
+├── Enemy controls 75% of map for 5 minutes
+└── You surrender
+```
+
+### Defense Mode (Classic Tower Defense)
+```
+WIN CONDITIONS
+├── Survive all waves
+├── Destroy the final boss
+└── Protect your base HP (starts at 20)
+
+LOSE CONDITIONS
+├── Base HP reaches 0
+└── Main structure destroyed
+```
+
+### Skirmish Mode (Quick Games)
+```
+VARIANTS
+├── King of the Hill: Control center zone longest wins
+├── Resource Race: First to 10,000 minerals wins
+├── Annihilation: Destroy all enemy structures
+└── Timed: Most territory when timer ends wins
+```
+
+---
+
+## 6. Tech Stack (Next-Gen Focus)
 
 | Component | Technology | Why |
 |-----------|------------|-----|
@@ -215,7 +467,114 @@ VISUAL
 
 ---
 
-## 5. Towers (Space Fantasy Themed)
+## 9. Faction-Specific Towers (UPDATED!)
+
+Each faction has unique towers that fit their playstyle and mechanics.
+
+### IRON DOMINION TOWERS
+
+| Tower | Cost | Role | Damage | Range | Special |
+|-------|------|------|--------|-------|---------|
+| **Bunker** | 100 | Defense | 15×4 marines | Medium | Load/unload infantry, +armor |
+| **Siege Tank** | 250 | Artillery | 80 splash | Long | Siege mode: +100% dmg, immobile |
+| **Missile Turret** | 150 | Anti-Air/DPS | 25 rapid | Medium | Detects hidden units |
+| **Sensor Tower** | 100 | Utility | 0 | Huge | Reveals map area, detects enemies |
+| **Battlecruiser Platform** | 500 | Ultimate | 200 beam | Long | Yamato Cannon ability |
+
+```
+IRON DOMINION UPGRADES
+├── Bunker → Fortress (adds auto-repair, +2 capacity)
+├── Siege Tank → Thor Platform (walking mech, dual cannons)
+├── Missile Turret → Planetary Defense Grid (chains to nearby turrets)
+└── Battlecruiser → Hyperion Command (calls orbital strikes)
+
+SPECIAL ABILITY: MULE Drop
+├── Cost: 50 minerals
+├── Effect: Drops mining robot for 30s burst of minerals
+└── Cooldown: 60s
+```
+
+### SWARM COLLECTIVE TOWERS (Require Creep!)
+
+| Tower | Cost | Role | Damage | Range | Special |
+|-------|------|------|--------|-------|---------|
+| **Spine Crawler** | 75 | Melee DPS | 40 pierce | Short | Can uproot and move on creep |
+| **Spore Crawler** | 75 | Anti-Air | 30 acid | Medium | Detects hidden, slows flyers |
+| **Sunken Colony** | 100 | AOE | 50 splash | Medium | Acid pool on death |
+| **Nydus Worm** | 200 | Utility | 0 | Map-wide | Teleport units between worms |
+| **Bile Launcher** | 300 | Siege | 150 corrosive | Very Long | Melts armor, damages over time |
+
+```
+SWARM COLLECTIVE UPGRADES (MUTATIONS)
+├── Spine Crawler → Impaler (ranged spines, +50% damage)
+├── Spine Crawler → Lurker Den (spawns burrowed lurkers)
+├── Spore Crawler → Parasite Spewer (infected enemies fight for you)
+├── Sunken Colony → Baneling Nest (spawns suicide bombers)
+└── Bile Launcher → Leviathan Maw (massive AOE, destroys buildings)
+
+CRITICAL: CREEP BUILDINGS
+├── Hatchery: Main base, spawns larvae, creep source (15 tile radius)
+├── Creep Tumor: Cheap, spreads creep +8 tiles, can spawn 1 more tumor
+├── Extractor: Gas harvesting (must be on gas node ON creep)
+└── Evolution Chamber: Unlocks mutations/upgrades
+
+CREEP STRATEGY
+├── Early Game: Spam creep tumors to expand quickly
+├── Mid Game: Secure expansion hatcheries
+├── Late Game: Creep highways for fast unit movement
+└── Defense: Losing creep = losing vision + buildings die
+```
+
+### ETERNAL ASCENDANCY TOWERS (Require Pylon Power!)
+
+| Tower | Cost | Role | Damage | Range | Special |
+|-------|------|------|--------|-------|---------|
+| **Photon Cannon** | 150 | DPS | 35 energy | Medium | Shield + HP, auto-targets |
+| **Shield Battery** | 100 | Support | 0 (heals) | Short | Restores shields to nearby |
+| **Khaydarin Monolith** | 300 | Heavy DPS | 100 beam | Long | Charges up, devastating blast |
+| **Stasis Ward** | 150 | Utility | 0 | Medium | Freezes enemies in time bubble |
+| **Templar Archives** | 400 | Ultimate | Psi Storm | Huge | Casts psi storm, feedback |
+
+```
+ETERNAL ASCENDANCY UPGRADES
+├── Photon Cannon → Colossus Walker (mobile, thermal lances)
+├── Shield Battery → Nexus Shield (projects shield over whole area)
+├── Khaydarin Monolith → Void Ray Platform (stacking damage beam)
+└── Templar Archives → Archon Sanctum (merges units into archons)
+
+CRITICAL: PYLON POWER
+├── Pylon: Power field (10 tile radius), also provides supply
+├── All buildings MUST be in pylon field to function
+├── No power = buildings disabled, shields don't regenerate
+├── Strategy: Protect pylons, chain power fields carefully
+└── Warp Prism (mobile pylon) available for aggressive play
+
+SPECIAL ABILITY: Chrono Boost
+├── Cost: 25 minerals
+├── Effect: Selected building works 50% faster for 20s
+└── Cooldown: 30s per pylon
+```
+
+### Tower Comparison Chart
+
+```
+                    IRON DOMINION    SWARM COLLECTIVE    ETERNAL ASCENDANCY
+────────────────────────────────────────────────────────────────────────────
+Build Requirement   Territory        CREEP (goo)         PYLON POWER
+Building Speed      Slow             Fast                Instant (warp)
+Building Cost       Medium           Cheap               Expensive
+Building HP         High             Low                 Medium + Shields
+Mobility            Some can lift    Can uproot/move     Stationary
+Special             Siege modes      Mutations           Abilities
+Weakness            Slow to adapt    Fragile, needs goo  Pylon dependency
+────────────────────────────────────────────────────────────────────────────
+```
+
+---
+
+## 10. Classic Towers (Neutral/Defense Mode)
+
+For classic tower defense mode, these faction-neutral towers are available:
 
 ### Base Towers (Tier 1-3)
 
