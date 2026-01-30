@@ -1,0 +1,41 @@
+{
+  "heroes": [
+    {
+      "type": "captainZara",
+      "name": "Captain Zara",
+      "description": "A battle-hardened space marine with devastating abilities",
+      "stats": {
+        "maxHealth": 300,
+        "speed": 4,
+        "damage": 20,
+        "attackRange": 5,
+        "attackSpeed": 1.5
+      },
+      "abilities": {
+        "Q": {
+          "key": "Q",
+          "name": "Plasma Burst",
+          "description": "Fire a concentrated plasma blast dealing damage in a small area",
+          "cooldown": 5,
+          "damage": 80,
+          "radius": 2
+        },
+        "W": {
+          "key": "W",
+          "name": "Energy Shield",
+          "description": "Create a protective barrier that reduces incoming damage",
+          "cooldown": 12,
+          "duration": 4
+        },
+        "R": {
+          "key": "R",
+          "name": "Orbital Strike",
+          "description": "Call down a devastating orbital bombardment on an area",
+          "cooldown": 30,
+          "damage": 200,
+          "radius": 4
+        }
+      }
+    }
+  ]
+}

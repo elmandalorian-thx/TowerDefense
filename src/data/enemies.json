@@ -1,0 +1,56 @@
+{
+  "enemies": [
+    {
+      "type": "blobbert",
+      "name": "Blobbert",
+      "description": "A squishy, bouncing blob that's slow but resilient",
+      "stats": {
+        "maxHealth": 50,
+        "speed": 2,
+        "damage": 1,
+        "reward": 10,
+        "size": 0.5,
+        "color": "#44ff88"
+      }
+    },
+    {
+      "type": "sirScuttles",
+      "name": "Sir Scuttles",
+      "description": "A speedy crab-like creature that rushes through defenses",
+      "stats": {
+        "maxHealth": 30,
+        "speed": 4,
+        "damage": 1,
+        "reward": 15,
+        "size": 0.4,
+        "color": "#ff6644"
+      }
+    },
+    {
+      "type": "chonkzilla",
+      "name": "Chonkzilla",
+      "description": "A massive tank unit that absorbs tons of damage",
+      "stats": {
+        "maxHealth": 200,
+        "speed": 1,
+        "damage": 3,
+        "reward": 50,
+        "size": 1.0,
+        "color": "#8844ff"
+      }
+    },
+    {
+      "type": "floofernaut",
+      "name": "Floofernaut",
+      "description": "A floating fuzzy alien with moderate speed and health",
+      "stats": {
+        "maxHealth": 80,
+        "speed": 2.5,
+        "damage": 2,
+        "reward": 25,
+        "size": 0.6,
+        "color": "#ffaa44"
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "towers": [
+    {
+      "type": "plasmaSpire",
+      "name": "Plasma Spire",
+      "description": "Fast-firing energy tower with moderate damage",
+      "stats": {
+        "damage": 15,
+        "range": 6,
+        "fireRate": 2,
+        "projectileSpeed": 15,
+        "cost": 50,
+        "color": "#00ffff"
+      }
+    },
+    {
+      "type": "railCannon",
+      "name": "Rail Cannon",
+      "description": "High damage, slow firing railgun with long range",
+      "stats": {
+        "damage": 60,
+        "range": 10,
+        "fireRate": 0.5,
+        "projectileSpeed": 30,
+        "cost": 100,
+        "color": "#ff0066"
+      }
+    },
+    {
+      "type": "novaLauncher",
+      "name": "Nova Launcher",
+      "description": "Area damage tower with explosive projectiles",
+      "stats": {
+        "damage": 25,
+        "range": 7,
+        "fireRate": 1,
+        "projectileSpeed": 10,
+        "cost": 75,
+        "splashRadius": 2,
+        "color": "#ffff00"
+      }
+    }
+  ]
+}

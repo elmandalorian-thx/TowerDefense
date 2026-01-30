@@ -1,0 +1,45 @@
+{
+  "waves": [
+    {
+      "id": 1,
+      "enemies": [
+        { "type": "blobbert", "count": 5, "spawnDelay": 1.5 }
+      ],
+      "delayBetweenWaves": 5
+    },
+    {
+      "id": 2,
+      "enemies": [
+        { "type": "blobbert", "count": 5, "spawnDelay": 1.2 },
+        { "type": "sirScuttles", "count": 3, "spawnDelay": 1.0 }
+      ],
+      "delayBetweenWaves": 5
+    },
+    {
+      "id": 3,
+      "enemies": [
+        { "type": "sirScuttles", "count": 6, "spawnDelay": 0.8 },
+        { "type": "floofernaut", "count": 3, "spawnDelay": 1.5 }
+      ],
+      "delayBetweenWaves": 5
+    },
+    {
+      "id": 4,
+      "enemies": [
+        { "type": "blobbert", "count": 8, "spawnDelay": 1.0 },
+        { "type": "floofernaut", "count": 5, "spawnDelay": 1.2 },
+        { "type": "chonkzilla", "count": 1, "spawnDelay": 3.0 }
+      ],
+      "delayBetweenWaves": 5
+    },
+    {
+      "id": 5,
+      "enemies": [
+        { "type": "sirScuttles", "count": 10, "spawnDelay": 0.6 },
+        { "type": "floofernaut", "count": 6, "spawnDelay": 1.0 },
+        { "type": "chonkzilla", "count": 3, "spawnDelay": 2.5 }
+      ],
+      "delayBetweenWaves": 0
+    }
+  ]
+}

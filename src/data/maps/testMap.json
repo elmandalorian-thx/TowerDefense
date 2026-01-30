@@ -1,0 +1,26 @@
+{
+  "name": "Cosmic Outpost",
+  "groundSize": { "x": 30, "y": 30 },
+  "path": [
+    { "x": -12, "y": 0, "z": -12 },
+    { "x": -12, "y": 0, "z": -4 },
+    { "x": -4, "y": 0, "z": -4 },
+    { "x": -4, "y": 0, "z": 4 },
+    { "x": 4, "y": 0, "z": 4 },
+    { "x": 4, "y": 0, "z": -4 },
+    { "x": 12, "y": 0, "z": -4 },
+    { "x": 12, "y": 0, "z": 12 }
+  ],
+  "towerSpots": [
+    { "id": "spot-1", "position": { "x": -8, "y": 0, "z": -8 }, "occupied": false },
+    { "id": "spot-2", "position": { "x": -8, "y": 0, "z": 0 }, "occupied": false },
+    { "id": "spot-3", "position": { "x": 0, "y": 0, "z": -8 }, "occupied": false },
+    { "id": "spot-4", "position": { "x": 0, "y": 0, "z": 0 }, "occupied": false },
+    { "id": "spot-5", "position": { "x": 0, "y": 0, "z": 8 }, "occupied": false },
+    { "id": "spot-6", "position": { "x": 8, "y": 0, "z": 0 }, "occupied": false },
+    { "id": "spot-7", "position": { "x": 8, "y": 0, "z": 8 }, "occupied": false },
+    { "id": "spot-8", "position": { "x": -4, "y": 0, "z": -8 }, "occupied": false }
+  ],
+  "spawnPoint": { "x": -12, "y": 0, "z": -12 },
+  "basePosition": { "x": 12, "y": 0, "z": 12 }
+}
