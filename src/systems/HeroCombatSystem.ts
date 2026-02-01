@@ -17,7 +17,8 @@ export class HeroCombatSystem {
     let nearestDist = Infinity
 
     for (const enemy of enemies) {
-      if (enemy.isDead) continue
+      // Skip untargetable enemies (dead, reached end, or burrowed)
+      if (!EnemyHealthSystem.isTargetable(enemy)) continue
 
       const dist = distance2D(hero.position, enemy.position)
       if (dist <= hero.attackRange && dist < nearestDist) {

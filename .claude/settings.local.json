@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh repo view:*)",
+      "Bash(gh api:*)",
+      "Bash(git clone:*)",
+      "Bash(dir \"C:\\\\GIT Folder\\\\JFB-TowerDefense2026\")",
+      "Bash(dir:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)",
+      "Bash(git push:*)",
+      "Bash(gh repo edit:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nImplement COSMIC CHAOS playable prototype\n\nComplete tower defense game with:\n- Three.js + React Three Fiber for 3D rendering\n- 4 enemy types \\(Blobbert, Sir Scuttles, Chonkzilla, Floofernaut\\)\n- 3 tower types \\(Plasma Spire, Rail Cannon, Nova Launcher\\)\n- Captain Zara hero with Q/W/R abilities\n- Wave spawning system with 5 waves\n- Win/lose conditions\n- React UI overlay \\(HUD, tower menu, hero panel\\)\n- Zustand state management\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(timeout 10 npm run dev:*)",
+      "Bash(git remote set-head:*)",
+      "Bash(gh pr list:*)",
+      "Bash(git merge:*)",
+      "Bash(ls -la \"C:\\\\GIT Folder\\\\JFB-TowerDefense2026\\\\src\\\\graphics\\\\effects\"\" 2>/dev/null || echo \"Folder not created yet \")"
+    ]
+  }
+}

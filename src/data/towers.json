@@ -11,6 +11,50 @@
         "projectileSpeed": 15,
         "cost": 50,
         "color": "#00ffff"
+      },
+      "upgrades": {
+        "tier2": {
+          "tier": 2,
+          "name": "Enhanced Plasma",
+          "description": "+50% damage",
+          "cost": 75,
+          "statModifiers": {
+            "damage": 1.5
+          },
+          "color": "#33ffff"
+        },
+        "tier3": {
+          "tier": 3,
+          "name": "Supercharged",
+          "description": "+50% attack speed",
+          "cost": 100,
+          "statModifiers": {
+            "fireRate": 1.5
+          },
+          "color": "#66ffff"
+        },
+        "tier4A": {
+          "tier": "4A",
+          "name": "Void Siphon",
+          "description": "Drains HP and heals nearby towers",
+          "cost": 150,
+          "statModifiers": {
+            "damage": 1.25
+          },
+          "specialEffect": "voidSiphon",
+          "color": "#9900ff"
+        },
+        "tier4B": {
+          "tier": "4B",
+          "name": "Prismatic Array",
+          "description": "Rainbow laser with random debuffs",
+          "cost": 150,
+          "statModifiers": {
+            "damage": 1.2
+          },
+          "specialEffect": "prismaticArray",
+          "color": "#ff00ff"
+        }
       }
     },
     {
@@ -24,6 +68,52 @@
         "projectileSpeed": 30,
         "cost": 100,
         "color": "#ff0066"
+      },
+      "upgrades": {
+        "tier2": {
+          "tier": 2,
+          "name": "Reinforced Barrel",
+          "description": "+30% range",
+          "cost": 100,
+          "statModifiers": {
+            "range": 1.3
+          },
+          "color": "#ff3388"
+        },
+        "tier3": {
+          "tier": 3,
+          "name": "Armor Piercing",
+          "description": "Ignores enemy armor",
+          "cost": 125,
+          "statModifiers": {
+            "damage": 1.2
+          },
+          "specialEffect": "armorPiercing",
+          "color": "#ff66aa"
+        },
+        "tier4A": {
+          "tier": "4A",
+          "name": "Singularity Rifle",
+          "description": "Creates gravity wells that pull enemies",
+          "cost": 175,
+          "statModifiers": {
+            "damage": 1.3
+          },
+          "specialEffect": "singularityRifle",
+          "color": "#000066"
+        },
+        "tier4B": {
+          "tier": "4B",
+          "name": "Swarm Launcher",
+          "description": "Fires 8 homing missiles",
+          "cost": 175,
+          "statModifiers": {
+            "fireRate": 0.5,
+            "damage": 0.3
+          },
+          "specialEffect": "swarmLauncher",
+          "color": "#ff9900"
+        }
       }
     },
     {
@@ -38,6 +128,52 @@
         "cost": 75,
         "splashRadius": 2,
         "color": "#ffff00"
+      },
+      "upgrades": {
+        "tier2": {
+          "tier": 2,
+          "name": "Bigger Boom",
+          "description": "+50% splash radius",
+          "cost": 75,
+          "statModifiers": {
+            "splashRadius": 1.5
+          },
+          "color": "#ffff33"
+        },
+        "tier3": {
+          "tier": 3,
+          "name": "Napalm",
+          "description": "Leaves fire damage over time",
+          "cost": 100,
+          "statModifiers": {
+            "damage": 1.2
+          },
+          "specialEffect": "napalm",
+          "color": "#ff6600"
+        },
+        "tier4A": {
+          "tier": "4A",
+          "name": "Supernova Core",
+          "description": "Creates radiation zones",
+          "cost": 150,
+          "statModifiers": {
+            "damage": 1.4,
+            "splashRadius": 1.5
+          },
+          "specialEffect": "supernovaCore",
+          "color": "#00ff66"
+        },
+        "tier4B": {
+          "tier": "4B",
+          "name": "Cryo Comet",
+          "description": "Freezing shots, enemies shatter on death",
+          "cost": 150,
+          "statModifiers": {
+            "damage": 1.2
+          },
+          "specialEffect": "cryoComet",
+          "color": "#00ccff"
+        }
       }
     }
   ]

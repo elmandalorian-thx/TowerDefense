@@ -6,6 +6,7 @@ import { TowerRenderer } from '../graphics/TowerRenderer'
 import { ProjectileRenderer } from '../graphics/ProjectileRenderer'
 import { HeroRenderer } from '../graphics/HeroRenderer'
 import { AbilityEffectsRenderer } from '../graphics/AbilityEffectsRenderer'
+import { ParticleSystem } from '../graphics/ParticleSystem'
 import { GameManager } from './GameManager'
 import { useGameStore } from '../stores/gameStore'
 
@@ -36,6 +37,7 @@ export function Game() {
       <ProjectileRenderer />
       <HeroRenderer />
       <AbilityEffectsRenderer />
+      <ParticleSystem maxParticles={15000} />
     </>
   )
 }

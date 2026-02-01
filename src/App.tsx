@@ -2,11 +2,19 @@ import { Suspense, useEffect } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import { Game } from './core/Game'
+import { PostProcessing } from './graphics/PostProcessing'
 import { HUD } from './ui/components/HUD'
 import { TowerMenu } from './ui/components/TowerMenu'
+import { TowerUpgradeMenu } from './ui/components/TowerUpgradeMenu'
 import { HeroPanel } from './ui/components/HeroPanel'
 import { WaveIndicator } from './ui/components/WaveIndicator'
 import { GameOverScreen } from './ui/components/GameOverScreen'
+import { AudioToggleButton } from './ui/components/AudioSettings'
+import { HeroSelector } from './ui/components/HeroSelector'
+import { FloatingText } from './ui/components/FloatingText'
+import { WaveAnnouncement } from './ui/components/WaveAnnouncement'
+import { GoldPopup } from './ui/components/GoldPopup'
+import { AudioManager } from './core/AudioManager'
 import { useGameStore } from './stores/gameStore'
 import './ui/styles/ui.css'
 
@@ -46,6 +54,14 @@ export default function App() {
     return () => document.removeEventListener('touchmove', preventZoom)
   }, [])
 
+  // Initialize audio manager
+  useEffect(() => {
+    AudioManager.initialize().catch(console.error)
+    return () => {
+      AudioManager.dispose()
+    }
+  }, [])
+
   return (
     <div className="game-container">
       <Suspense fallback={<LoadingScreen />}>
@@ -77,14 +93,24 @@ export default function App() {
             touches={{ ONE: 0, TWO: 2 }}
           />
           <Game />
+          <PostProcessing />
         </Canvas>
       </Suspense>
 
       {/* UI Overlay */}
       <HUD />
       <TowerMenu />
+      <TowerUpgradeMenu />
       <HeroPanel />
+      <HeroSelector />
       <WaveIndicator />
+      <AudioToggleButton />
+
+      {/* Animated UI effects */}
+      <FloatingText />
+      <GoldPopup />
+      <WaveAnnouncement />
+
       {(gameState === 'won' || gameState === 'lost') && <GameOverScreen />}
     </div>
   )

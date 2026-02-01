@@ -1,4 +1,5 @@
 import { useGameStore } from '../../stores/gameStore'
+import { playUISound, playWaveSound } from '../../core/AudioManager'
 
 export function WaveIndicator() {
   const currentWave = useGameStore((state) => state.currentWave)
@@ -25,6 +26,8 @@ export function WaveIndicator() {
   }
 
   const handleStartWave = () => {
+    playUISound('click')
+    playWaveSound('start')
     window.dispatchEvent(new CustomEvent('startWave'))
   }
 

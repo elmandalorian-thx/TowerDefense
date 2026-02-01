@@ -23,7 +23,39 @@ export interface Entity {
 
 // ============ Enemy Types ============
 
-export type EnemyType = 'blobbert' | 'sirScuttles' | 'chonkzilla' | 'floofernaut'
+export type EnemyType = 'blobbert' | 'sirScuttles' | 'chonkzilla' | 'floofernaut' | 'zappyMcZapface' | 'wormothy'
+
+export interface EnemyBehaviors {
+  // Blobbert: splits into mini versions on death
+  splitsOnDeath?: boolean
+  splitCount?: number
+  splitHealthPercent?: number
+
+  // Sir Scuttles: dodges projectiles
+  canDodge?: boolean
+  dodgeChance?: number // 0-1
+
+  // Chonkzilla: armor and knockback immunity
+  armorPercent?: number // damage reduction 0-1
+  knockbackImmune?: boolean
+
+  // Floofernaut: flying and DoT trail
+  isFlying?: boolean
+  leavesTrail?: boolean
+  trailDamage?: number
+  trailDuration?: number
+
+  // Zappy: teleport
+  canTeleport?: boolean
+  teleportInterval?: number // seconds
+  teleportDistance?: number // path segments to skip
+
+  // Wormothy: burrow
+  canBurrow?: boolean
+  burrowInterval?: number // seconds
+  burrowDuration?: number // seconds
+  burrowDistance?: number // path segments to skip
+}
 
 export interface EnemyStats {
   maxHealth: number
@@ -32,6 +64,30 @@ export interface EnemyStats {
   reward: number
   size: number
   color: string
+}
+
+export interface EnemyBehaviorState {
+  // Dodge tracking
+  projectilesReceived?: number
+  isDodging?: boolean
+  dodgeOffset?: { x: number; z: number }
+
+  // Teleport tracking
+  lastTeleportTime?: number
+
+  // Burrow tracking
+  lastBurrowTime?: number
+  isBurrowed?: boolean
+  burrowEndTime?: number
+
+  // Trail tracking
+  lastTrailTime?: number
+
+  // Animation state
+  animationPhase?: number
+
+  // Mini-blob marker
+  isMini?: boolean
 }
 
 export interface Enemy extends Entity {
@@ -45,6 +101,8 @@ export interface Enemy extends Entity {
   pathProgress: number
   isDead: boolean
   reachedEnd: boolean
+  behaviors?: EnemyBehaviors
+  behaviorState?: EnemyBehaviorState
 }
 
 export interface EnemyConfig {
@@ -52,11 +110,25 @@ export interface EnemyConfig {
   name: string
   stats: EnemyStats
   description: string
+  behaviors?: EnemyBehaviors
 }
 
 // ============ Tower Types ============
 
 export type TowerType = 'plasmaSpire' | 'railCannon' | 'novaLauncher'
+
+export type TowerTier = 1 | 2 | 3 | '4A' | '4B'
+
+export type TowerSpecialEffect =
+  | 'none'
+  | 'voidSiphon'      // Drains HP, heals nearby tower
+  | 'prismaticArray'  // Rainbow laser, random debuffs
+  | 'singularityRifle' // Creates gravity wells
+  | 'swarmLauncher'   // Fires 8 homing missiles
+  | 'supernovaCore'   // Radiation zones
+  | 'cryoComet'       // Freezing shots, shatter on death
+  | 'armorPiercing'   // Ignores armor
+  | 'napalm'          // Leaves fire DOT
 
 export interface TowerStats {
   damage: number
@@ -68,6 +140,28 @@ export interface TowerStats {
   splashRadius?: number
 }
 
+export interface TowerUpgrade {
+  tier: TowerTier
+  name: string
+  description: string
+  cost: number
+  statModifiers: Partial<{
+    damage: number        // Multiplier (1.5 = +50%)
+    range: number         // Multiplier
+    fireRate: number      // Multiplier
+    splashRadius: number  // Multiplier
+  }>
+  specialEffect?: TowerSpecialEffect
+  color?: string          // New color for this tier
+}
+
+export interface TowerUpgradePath {
+  tier2: TowerUpgrade
+  tier3: TowerUpgrade
+  tier4A: TowerUpgrade
+  tier4B: TowerUpgrade
+}
+
 export interface Tower extends Entity {
   type: TowerType
   damage: number
@@ -77,6 +171,11 @@ export interface Tower extends Entity {
   lastFireTime: number
   targetId: string | null
   splashRadius?: number
+  // Upgrade tracking
+  tier: TowerTier
+  upgradePath?: '4A' | '4B'  // Which path was chosen at tier 4
+  specialEffect: TowerSpecialEffect
+  totalInvested: number       // Total currency spent on this tower
 }
 
 export interface TowerConfig {
@@ -84,6 +183,7 @@ export interface TowerConfig {
   name: string
   stats: TowerStats
   description: string
+  upgrades: TowerUpgradePath
 }
 
 // ============ Projectile Types ============
@@ -101,7 +201,7 @@ export interface Projectile extends Entity {
 
 // ============ Hero Types ============
 
-export type HeroType = 'captainZara'
+export type HeroType = 'captainZara' | 'professorWobblesworth' | 'boris' | 'glitch' | 'mamaMoonbeam'
 
 export type AbilityKey = 'Q' | 'W' | 'R'
 
@@ -114,6 +214,16 @@ export interface Ability {
   damage?: number
   radius?: number
   duration?: number
+  // New hero abilities
+  slowPercent?: number
+  healAmount?: number
+  knockbackForce?: number
+  damageBoost?: number
+  critMultiplier?: number
+  teleportRange?: number
+  executeThreshold?: number
+  healPerSecond?: number
+  reviveHealthPercent?: number
 }
 
 export interface HeroStats {
@@ -257,6 +367,10 @@ export interface GameStoreState {
   setSelectedTowerType: (type: TowerType | null) => void
   setSelectedTowerId: (id: string | null) => void
   setHoveredSpotId: (id: string | null) => void
+
+  // Tower upgrade actions
+  upgradeTower: (towerId: string, targetTier: TowerTier) => boolean
+  sellTower: (towerId: string) => void
 
   // Game actions
   resetGame: () => void

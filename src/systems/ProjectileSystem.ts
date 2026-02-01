@@ -1,6 +1,7 @@
 import { useGameStore } from '../stores/gameStore'
 import { EnemyHealthSystem } from './EnemyHealthSystem'
 import { lerpVector3D, distance2D, distance3D } from '../utils/helpers'
+import { triggerImpactEffect } from '../stores/effectsStore'
 import type { Projectile, Enemy } from '../types'
 
 export class ProjectileSystem {
@@ -80,6 +81,9 @@ export class ProjectileSystem {
   }
 
   private onProjectileHit(projectile: Projectile, enemies: Enemy[]): void {
+    // Trigger impact visual effect
+    triggerImpactEffect()
+
     if (projectile.splashRadius) {
       this.applySplashDamage(projectile, enemies)
     } else {

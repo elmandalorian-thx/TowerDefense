@@ -1,0 +1,208 @@
+{
+  "sounds": {
+    "tower_plasma_fire": {
+      "type": "laser",
+      "category": "sfx",
+      "volume": 0.6,
+      "params": {
+        "frequency": 880,
+        "duration": 0.12,
+        "pitchSweep": 0.4,
+        "detune": 8
+      }
+    },
+    "tower_rail_fire": {
+      "type": "laser",
+      "category": "sfx",
+      "volume": 0.7,
+      "params": {
+        "frequency": 440,
+        "duration": 0.2,
+        "pitchSweep": 0.2,
+        "detune": 3
+      }
+    },
+    "tower_nova_fire": {
+      "type": "explosion",
+      "category": "sfx",
+      "volume": 0.5,
+      "params": {
+        "duration": 0.3,
+        "filterFreq": 4000,
+        "filterSweep": 0.1
+      }
+    },
+    "enemy_death_splat": {
+      "type": "splat",
+      "category": "sfx",
+      "volume": 0.5,
+      "params": {
+        "duration": 0.15,
+        "noiseAmount": 0.8
+      }
+    },
+    "enemy_death_zap": {
+      "type": "zap",
+      "category": "sfx",
+      "volume": 0.5,
+      "params": {
+        "frequency": 1500,
+        "duration": 0.1
+      }
+    },
+    "enemy_death_explosion": {
+      "type": "explosion",
+      "category": "sfx",
+      "volume": 0.6,
+      "params": {
+        "duration": 0.4,
+        "filterFreq": 6000,
+        "filterSweep": 0.05
+      }
+    },
+    "hero_ability_q": {
+      "type": "chord",
+      "category": "sfx",
+      "volume": 0.6,
+      "params": {
+        "frequency": 330,
+        "duration": 0.4,
+        "harmonics": [1, 1.2, 1.5, 2],
+        "attack": 0.02,
+        "decay": 0.1,
+        "sustain": 0.5,
+        "release": 0.2
+      }
+    },
+    "hero_ability_w": {
+      "type": "powerup",
+      "category": "sfx",
+      "volume": 0.5,
+      "params": {
+        "frequency": 400,
+        "duration": 0.35
+      }
+    },
+    "hero_ability_r": {
+      "type": "chord",
+      "category": "sfx",
+      "volume": 0.7,
+      "params": {
+        "frequency": 220,
+        "duration": 0.8,
+        "harmonics": [1, 1.25, 1.5, 2, 2.5, 3],
+        "attack": 0.05,
+        "decay": 0.15,
+        "sustain": 0.7,
+        "release": 0.4,
+        "reverbTime": 0.2
+      }
+    },
+    "ui_click": {
+      "type": "blip",
+      "category": "sfx",
+      "volume": 0.4,
+      "params": {
+        "frequency": 800,
+        "duration": 0.06
+      }
+    },
+    "ui_hover": {
+      "type": "blip",
+      "category": "sfx",
+      "volume": 0.2,
+      "params": {
+        "frequency": 600,
+        "duration": 0.04
+      }
+    },
+    "ui_purchase": {
+      "type": "powerup",
+      "category": "sfx",
+      "volume": 0.5,
+      "params": {
+        "frequency": 500,
+        "duration": 0.25
+      }
+    },
+    "ui_error": {
+      "type": "error",
+      "category": "sfx",
+      "volume": 0.5,
+      "params": {
+        "frequency": 180,
+        "duration": 0.25
+      }
+    },
+    "wave_start": {
+      "type": "fanfare",
+      "category": "sfx",
+      "volume": 0.6,
+      "params": {
+        "frequency": 440,
+        "duration": 0.6
+      }
+    },
+    "wave_complete": {
+      "type": "fanfare",
+      "category": "sfx",
+      "volume": 0.7,
+      "params": {
+        "frequency": 523,
+        "duration": 0.8
+      }
+    },
+    "ambient_space": {
+      "type": "ambient",
+      "category": "ambient",
+      "volume": 0.3,
+      "params": {
+        "frequency": 55,
+        "duration": 8.0
+      }
+    },
+    "game_over_win": {
+      "type": "fanfare",
+      "category": "sfx",
+      "volume": 0.8,
+      "params": {
+        "frequency": 523,
+        "duration": 1.2
+      }
+    },
+    "game_over_lose": {
+      "type": "chord",
+      "category": "sfx",
+      "volume": 0.6,
+      "params": {
+        "frequency": 110,
+        "duration": 1.0,
+        "harmonics": [1, 1.19, 1.41],
+        "attack": 0.1,
+        "decay": 0.2,
+        "sustain": 0.3,
+        "release": 0.5
+      }
+    },
+    "hero_attack": {
+      "type": "laser",
+      "category": "sfx",
+      "volume": 0.4,
+      "params": {
+        "frequency": 660,
+        "duration": 0.1,
+        "pitchSweep": 0.5,
+        "detune": 5
+      }
+    },
+    "projectile_hit": {
+      "type": "zap",
+      "category": "sfx",
+      "volume": 0.3,
+      "params": {
+        "frequency": 1200,
+        "duration": 0.08
+      }
+    }
+  }
+}

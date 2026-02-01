@@ -1,5 +1,6 @@
 import { useGameStore } from '../stores/gameStore'
 import { EnemyFactory } from '../entities/EnemyFactory'
+import { playWaveSound } from './AudioManager'
 import wavesData from '../data/waves.json'
 import testMap from '../data/maps/testMap.json'
 import type { Wave, WaveEnemy, EnemyType } from '../types'
@@ -108,6 +109,9 @@ export class WaveManager {
 
     this.currentWaveIndex++
     this.betweenWaves = true
+
+    // Play wave complete sound
+    playWaveSound('complete')
 
     // Bonus currency for completing wave
     store.addCurrency(50 + this.currentWaveIndex * 10)

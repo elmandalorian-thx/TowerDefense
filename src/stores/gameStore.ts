@@ -1,5 +1,6 @@
 import { create } from 'zustand'
-import type { GameStoreState, GameState, Enemy, Tower, Projectile, Hero, TowerSpot, PathPoint, TowerType } from '../types'
+import type { GameStoreState, GameState, Enemy, Tower, Projectile, Hero, TowerSpot, PathPoint, TowerType, TowerTier } from '../types'
+import { TowerFactory } from '../entities/TowerFactory'
 
 const initialState = {
   gameState: 'playing' as GameState,
@@ -111,6 +112,49 @@ export const useGameStore = create<GameStoreState>((set, get) => ({
   setSelectedTowerType: (type) => set({ selectedTowerType: type }),
   setSelectedTowerId: (id) => set({ selectedTowerId: id }),
   setHoveredSpotId: (id) => set({ hoveredSpotId: id }),
+
+  // Tower upgrade actions
+  upgradeTower: (towerId: string, targetTier: TowerTier) => {
+    const { towers, currency } = get()
+    const tower = towers.find((t) => t.id === towerId)
+
+    if (!tower) return false
+
+    const upgradeCost = TowerFactory.getUpgradeCost(tower.type, targetTier)
+    if (currency < upgradeCost) return false
+
+    const upgradedTower = TowerFactory.applyUpgrade(tower, targetTier)
+    if (!upgradedTower) return false
+
+    set({
+      currency: currency - upgradeCost,
+      towers: towers.map((t) => (t.id === towerId ? upgradedTower : t)),
+    })
+    return true
+  },
+
+  sellTower: (towerId: string) => {
+    const { towers, towerSpots, currency } = get()
+    const tower = towers.find((t) => t.id === towerId)
+
+    if (!tower) return
+
+    const sellValue = TowerFactory.getSellValue(tower)
+
+    // Find and free the tower spot
+    const spot = towerSpots.find(
+      (s) => s.position.x === tower.position.x && s.position.z === tower.position.z
+    )
+
+    set({
+      currency: currency + sellValue,
+      towers: towers.filter((t) => t.id !== towerId),
+      towerSpots: spot
+        ? towerSpots.map((s) => (s.id === spot.id ? { ...s, occupied: false } : s))
+        : towerSpots,
+      selectedTowerId: null,
+    })
+  },
 
   // Game actions
   resetGame: () => set({

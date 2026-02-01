@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Line } from '@react-three/drei'
 import { useGameStore } from '../stores/gameStore'
 import { TowerFactory } from '../entities/TowerFactory'
+import { playUISound } from '../core/AudioManager'
 import type { TowerSpot } from '../types'
 
 export function MapRenderer() {
@@ -122,6 +123,11 @@ function TowerSpotMesh({
       const tower = TowerFactory.create(selectedTowerType, spot.position)
       addTower(tower)
       occupyTowerSpot(spot.id)
+      // Play purchase sound for successful tower placement
+      playUISound('purchase')
+    } else {
+      // Play error sound if not enough currency
+      playUISound('error')
     }
   }
 

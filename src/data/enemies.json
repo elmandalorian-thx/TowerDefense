@@ -3,7 +3,7 @@
     {
       "type": "blobbert",
       "name": "Blobbert",
-      "description": "A squishy, bouncing blob that's slow but resilient",
+      "description": "A squishy, bouncing blob that splits into mini-blobs on death",
       "stats": {
         "maxHealth": 50,
         "speed": 2,
@@ -11,12 +11,17 @@
         "reward": 10,
         "size": 0.5,
         "color": "#44ff88"
+      },
+      "behaviors": {
+        "splitsOnDeath": true,
+        "splitCount": 2,
+        "splitHealthPercent": 0.25
       }
     },
     {
       "type": "sirScuttles",
       "name": "Sir Scuttles",
-      "description": "A speedy crab-like creature that rushes through defenses",
+      "description": "A nimble crab-like creature that dodges every 3rd projectile",
       "stats": {
         "maxHealth": 30,
         "speed": 4,
@@ -24,12 +29,16 @@
         "reward": 15,
         "size": 0.4,
         "color": "#ff6644"
+      },
+      "behaviors": {
+        "canDodge": true,
+        "dodgeChance": 0.33
       }
     },
     {
       "type": "chonkzilla",
       "name": "Chonkzilla",
-      "description": "A massive tank unit that absorbs tons of damage",
+      "description": "A massive armored tank immune to knockback with 25% damage reduction",
       "stats": {
         "maxHealth": 200,
         "speed": 1,
@@ -37,12 +46,16 @@
         "reward": 50,
         "size": 1.0,
         "color": "#8844ff"
+      },
+      "behaviors": {
+        "armorPercent": 0.25,
+        "knockbackImmune": true
       }
     },
     {
       "type": "floofernaut",
       "name": "Floofernaut",
-      "description": "A floating fuzzy alien with moderate speed and health",
+      "description": "A floating fuzzy alien that flies over obstacles and leaves damaging trails",
       "stats": {
         "maxHealth": 80,
         "speed": 2.5,
@@ -50,6 +63,49 @@
         "reward": 25,
         "size": 0.6,
         "color": "#ffaa44"
+      },
+      "behaviors": {
+        "isFlying": true,
+        "leavesTrail": true,
+        "trailDamage": 5,
+        "trailDuration": 3
+      }
+    },
+    {
+      "type": "zappyMcZapface",
+      "name": "Zappy McZapface",
+      "description": "An electric jellyfish with a tiny hat that teleports randomly every 3 seconds",
+      "stats": {
+        "maxHealth": 100,
+        "speed": 3,
+        "damage": 1,
+        "reward": 15,
+        "size": 0.45,
+        "color": "#00ffff"
+      },
+      "behaviors": {
+        "canTeleport": true,
+        "teleportInterval": 3,
+        "teleportDistance": 2
+      }
+    },
+    {
+      "type": "wormothy",
+      "name": "Wormothy",
+      "description": "A gentleman worm with a bow tie that burrows underground to become invulnerable",
+      "stats": {
+        "maxHealth": 300,
+        "speed": 2,
+        "damage": 2,
+        "reward": 25,
+        "size": 0.55,
+        "color": "#cc8866"
+      },
+      "behaviors": {
+        "canBurrow": true,
+        "burrowInterval": 5,
+        "burrowDuration": 2,
+        "burrowDistance": 3
       }
     }
   ]

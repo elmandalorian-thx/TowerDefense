@@ -1,6 +1,8 @@
 import { useGameStore } from '../stores/gameStore'
 import { createProjectile } from '../entities/Projectile'
 import { angleToTarget } from '../utils/helpers'
+import { triggerTowerFireEffect } from '../stores/effectsStore'
+import { playTowerFire } from '../core/AudioManager'
 import type { Tower, Enemy } from '../types'
 
 export class TowerAttackSystem {
@@ -40,6 +42,12 @@ export class TowerAttackSystem {
     )
 
     store.addProjectile(projectile)
+
+    // Trigger subtle visual effect for tower fire
+    triggerTowerFireEffect()
+
+    // Play tower fire sound with spatial audio
+    playTowerFire(tower.type, tower.position)
 
     // Update tower rotation to face target
     const rotation = angleToTarget(tower.position, target.position)

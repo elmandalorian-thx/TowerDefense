@@ -1,5 +1,6 @@
 import { useGameStore } from '../stores/gameStore'
 import { distance2D } from '../utils/helpers'
+import { EnemyHealthSystem } from './EnemyHealthSystem'
 import type { Enemy, Tower } from '../types'
 
 export class TowerTargetingSystem {
@@ -18,7 +19,7 @@ export class TowerTargetingSystem {
     // Check if current target is still valid
     if (tower.targetId) {
       const currentTarget = enemies.find((e) => e.id === tower.targetId)
-      if (currentTarget && !currentTarget.isDead && !currentTarget.reachedEnd) {
+      if (currentTarget && EnemyHealthSystem.isTargetable(currentTarget)) {
         const dist = distance2D(tower.position, currentTarget.position)
         if (dist <= tower.range) {
           return // Keep current target
@@ -33,7 +34,8 @@ export class TowerTargetingSystem {
     let bestProgress = -1
 
     for (const enemy of enemies) {
-      if (enemy.isDead || enemy.reachedEnd) continue
+      // Skip dead, reached end, or untargetable enemies (like burrowed Wormothy)
+      if (!EnemyHealthSystem.isTargetable(enemy)) continue
 
       const dist = distance2D(tower.position, enemy.position)
       if (dist > tower.range) continue

@@ -4,6 +4,8 @@
       "type": "captainZara",
       "name": "Captain Zara",
       "description": "A battle-hardened space marine with devastating abilities",
+      "role": "Fighter",
+      "color": "#3366ff",
       "stats": {
         "maxHealth": 300,
         "speed": 4,
@@ -34,6 +36,168 @@
           "cooldown": 30,
           "damage": 200,
           "radius": 4
+        }
+      }
+    },
+    {
+      "type": "professorWobblesworth",
+      "name": "Professor Wobblesworth III",
+      "description": "A brilliant but eccentric scientist with gravity-manipulating technology",
+      "role": "Support Mage",
+      "color": "#9933ff",
+      "stats": {
+        "maxHealth": 400,
+        "speed": 3,
+        "damage": 25,
+        "attackRange": 7,
+        "attackSpeed": 1.0
+      },
+      "abilities": {
+        "Q": {
+          "key": "Q",
+          "name": "Gravity Bubble",
+          "description": "Create a gravity field that slows enemies by 50% in radius",
+          "cooldown": 10,
+          "duration": 5,
+          "radius": 4,
+          "slowPercent": 50
+        },
+        "W": {
+          "key": "W",
+          "name": "Repair Drone",
+          "description": "Deploy a drone that heals the nearest tower for 200 HP",
+          "cooldown": 20,
+          "healAmount": 200
+        },
+        "R": {
+          "key": "R",
+          "name": "Black Hole",
+          "description": "Create a black hole that sucks in enemies, then explodes for massive damage",
+          "cooldown": 60,
+          "damage": 300,
+          "radius": 5,
+          "duration": 3
+        }
+      }
+    },
+    {
+      "type": "boris",
+      "name": "B.O.R.I.S.",
+      "description": "Battle-Optimized Robotic Infantry System - a chunky Soviet mech with a friendly demeanor",
+      "role": "Tank",
+      "color": "#ff6600",
+      "stats": {
+        "maxHealth": 1500,
+        "speed": 2,
+        "damage": 80,
+        "attackRange": 3,
+        "attackSpeed": 0.8
+      },
+      "abilities": {
+        "Q": {
+          "key": "Q",
+          "name": "Rocket Punch",
+          "description": "Launch a devastating punch that knocks back all enemies in a cone",
+          "cooldown": 6,
+          "damage": 120,
+          "knockbackForce": 5,
+          "radius": 3
+        },
+        "W": {
+          "key": "W",
+          "name": "Fortress Mode",
+          "description": "Become immobile but gain 100% increased damage",
+          "cooldown": 12,
+          "duration": 6,
+          "damageBoost": 100
+        },
+        "R": {
+          "key": "R",
+          "name": "Orbital Drop",
+          "description": "Call down a massive strike on a target location",
+          "cooldown": 50,
+          "damage": 500,
+          "radius": 6
+        }
+      }
+    },
+    {
+      "type": "glitch",
+      "name": "Glitch the Unstable",
+      "description": "A corrupted hologram ninja, flickering between dimensions",
+      "role": "Assassin",
+      "color": "#00ffff",
+      "stats": {
+        "maxHealth": 300,
+        "speed": 6,
+        "damage": 120,
+        "attackRange": 2,
+        "attackSpeed": 2.0
+      },
+      "abilities": {
+        "Q": {
+          "key": "Q",
+          "name": "Phase Shift",
+          "description": "Become invisible for 3 seconds. Next attack is a guaranteed critical hit",
+          "cooldown": 8,
+          "duration": 3,
+          "critMultiplier": 3
+        },
+        "W": {
+          "key": "W",
+          "name": "Glitch Bomb",
+          "description": "Teleport to a location and create a damage zone",
+          "cooldown": 10,
+          "damage": 150,
+          "radius": 3,
+          "teleportRange": 8
+        },
+        "R": {
+          "key": "R",
+          "name": "System Crash",
+          "description": "Execute all enemies below 20% HP in a large radius",
+          "cooldown": 30,
+          "executeThreshold": 20,
+          "radius": 8
+        }
+      }
+    },
+    {
+      "type": "mamaMoonbeam",
+      "name": "Mama Moonbeam",
+      "description": "A benevolent space grandma made of pure starlight, spreading cosmic love",
+      "role": "Healer",
+      "color": "#ffdd00",
+      "stats": {
+        "maxHealth": 500,
+        "speed": 3.5,
+        "damage": 15,
+        "attackRange": 6,
+        "attackSpeed": 1.2
+      },
+      "abilities": {
+        "Q": {
+          "key": "Q",
+          "name": "Healing Ray",
+          "description": "Channel a healing beam that restores 50 HP per second to target",
+          "cooldown": 5,
+          "healPerSecond": 50,
+          "duration": 4
+        },
+        "W": {
+          "key": "W",
+          "name": "Cosmic Shield",
+          "description": "Make the target hero or tower invulnerable for 3 seconds",
+          "cooldown": 25,
+          "duration": 3
+        },
+        "R": {
+          "key": "R",
+          "name": "Resurrection",
+          "description": "Revive all dead soldiers in a radius, restoring them to 50% HP",
+          "cooldown": 90,
+          "radius": 10,
+          "reviveHealthPercent": 50
         }
       }
     }
