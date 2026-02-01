@@ -9,15 +9,25 @@ export class WaveManager {
   private currentWaveIndex: number = 0
   private spawnQueue: { type: EnemyType; delay: number }[] = []
   private spawnTimer: number = 0
-  private waveDelayTimer: number = 0
   private isSpawning: boolean = false
   private betweenWaves: boolean = true
+  private startWaveHandler: (() => void) | null = null
 
   initialize(): void {
     this.waves = wavesData.waves as Wave[]
     const store = useGameStore.getState()
     store.setTotalWaves(this.waves.length)
     store.setCurrentWave(0)
+
+    // Listen for manual wave start
+    this.startWaveHandler = () => this.startNextWave()
+    window.addEventListener('startWave', this.startWaveHandler as EventListener)
+  }
+
+  cleanup(): void {
+    if (this.startWaveHandler) {
+      window.removeEventListener('startWave', this.startWaveHandler as EventListener)
+    }
   }
 
   startNextWave(): void {
@@ -56,20 +66,15 @@ export class WaveManager {
   update(delta: number): void {
     const store = useGameStore.getState()
 
+    // Waiting for player to start wave
     if (this.betweenWaves) {
-      // Auto-start first wave
-      if (this.currentWaveIndex === 0) {
-        this.waveDelayTimer += delta
-        if (this.waveDelayTimer >= 2) {
-          this.startNextWave()
-        }
-      }
       return
     }
 
     if (!this.isSpawning) {
-      // Check if wave is complete
-      if (store.enemies.length === 0 && store.enemiesRemainingInWave === 0) {
+      // Check if wave is complete (all enemies spawned and defeated)
+      const activeEnemies = store.enemies.filter(e => !e.isDead)
+      if (activeEnemies.length === 0 && this.spawnQueue.length === 0) {
         this.onWaveComplete()
       }
       return
@@ -99,21 +104,13 @@ export class WaveManager {
   private onWaveComplete(): void {
     const store = useGameStore.getState()
     store.setWaveInProgress(false)
+    store.setEnemiesRemainingInWave(0)
 
     this.currentWaveIndex++
+    this.betweenWaves = true
 
-    if (this.currentWaveIndex < this.waves.length) {
-      this.betweenWaves = true
-      this.waveDelayTimer = 0
-
-      // Auto-start next wave after delay
-      const previousWave = this.waves[this.currentWaveIndex - 1]
-      setTimeout(() => {
-        if (store.gameState === 'playing') {
-          this.startNextWave()
-        }
-      }, previousWave.delayBetweenWaves * 1000)
-    }
+    // Bonus currency for completing wave
+    store.addCurrency(50 + this.currentWaveIndex * 10)
   }
 
   getCurrentWaveIndex(): number {

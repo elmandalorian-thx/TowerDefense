@@ -103,5 +103,6 @@ export class GameManager {
 
   cleanup(): void {
     this.inputManager.cleanup()
+    this.waveManager.cleanup()
   }
 }

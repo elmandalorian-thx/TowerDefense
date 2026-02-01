@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import * as THREE from 'three'
 import { useGameStore } from '../stores/gameStore'
@@ -7,39 +7,106 @@ import { HeroMovementSystem } from '../systems/HeroMovementSystem'
 export function HeroRenderer() {
   const hero = useGameStore((state) => state.hero)
   const meshRef = useRef<THREE.Group>(null)
+  const targetIndicatorRef = useRef<THREE.Group>(null)
   const { camera, gl } = useThree()
+  const [moveTarget, setMoveTarget] = useState<{ x: number; z: number } | null>(null)
 
-  // Handle right-click for hero movement
+  // Handle movement - right-click on desktop, two-finger tap or long press on mobile
   useEffect(() => {
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault()
+    let longPressTimer: ReturnType<typeof setTimeout> | null = null
 
+    const handleMoveToPosition = (clientX: number, clientY: number) => {
       const rect = gl.domElement.getBoundingClientRect()
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1
-      const y = -((e.clientY - rect.top) / rect.height) * 2 + 1
+      const x = ((clientX - rect.left) / rect.width) * 2 - 1
+      const y = -((clientY - rect.top) / rect.height) * 2 + 1
 
       const raycaster = new THREE.Raycaster()
       raycaster.setFromCamera(new THREE.Vector2(x, y), camera)
 
-      // Create ground plane for intersection
       const groundPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0)
       const intersection = new THREE.Vector3()
 
       if (raycaster.ray.intersectPlane(groundPlane, intersection)) {
         HeroMovementSystem.setMoveTarget(intersection.x, intersection.z)
+        setMoveTarget({ x: intersection.x, z: intersection.z })
+      }
+    }
+
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault()
+      handleMoveToPosition(e.clientX, e.clientY)
+    }
+
+    // Two-finger tap for mobile movement
+    const handleTouchStart = (e: TouchEvent) => {
+      // Two-finger tap = move hero
+      if (e.touches.length === 2) {
+        e.preventDefault()
+        const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2
+        const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2
+        handleMoveToPosition(midX, midY)
+        return
+      }
+
+      // Long press on single touch = move hero
+      if (e.touches.length === 1) {
+        longPressTimer = setTimeout(() => {
+          handleMoveToPosition(e.touches[0].clientX, e.touches[0].clientY)
+        }, 500)
+      }
+    }
+
+    const handleTouchEnd = () => {
+      if (longPressTimer) {
+        clearTimeout(longPressTimer)
+        longPressTimer = null
+      }
+    }
+
+    const handleTouchMove = () => {
+      // Cancel long press if finger moves
+      if (longPressTimer) {
+        clearTimeout(longPressTimer)
+        longPressTimer = null
       }
     }
 
     gl.domElement.addEventListener('contextmenu', handleContextMenu)
+    gl.domElement.addEventListener('touchstart', handleTouchStart, { passive: false })
+    gl.domElement.addEventListener('touchend', handleTouchEnd)
+    gl.domElement.addEventListener('touchmove', handleTouchMove)
 
     return () => {
       gl.domElement.removeEventListener('contextmenu', handleContextMenu)
+      gl.domElement.removeEventListener('touchstart', handleTouchStart)
+      gl.domElement.removeEventListener('touchend', handleTouchEnd)
+      gl.domElement.removeEventListener('touchmove', handleTouchMove)
+      if (longPressTimer) clearTimeout(longPressTimer)
     }
   }, [camera, gl])
 
   useFrame(() => {
     if (!meshRef.current || !hero) return
+
+    // Update position from store (this ensures reactivity)
+    meshRef.current.position.x = hero.position.x
+    meshRef.current.position.z = hero.position.z
     meshRef.current.rotation.y = hero.rotation
+
+    // Update target indicator
+    if (targetIndicatorRef.current && moveTarget) {
+      targetIndicatorRef.current.position.x = moveTarget.x
+      targetIndicatorRef.current.position.z = moveTarget.z
+
+      // Pulse animation
+      const scale = 0.8 + Math.sin(Date.now() * 0.005) * 0.2
+      targetIndicatorRef.current.scale.setScalar(scale)
+
+      // Clear target when hero stops moving
+      if (!hero.isMoving) {
+        setMoveTarget(null)
+      }
+    }
   })
 
   if (!hero) return null
@@ -50,10 +117,25 @@ export function HeroRenderer() {
   const shieldActive = hero.abilities.W.currentCooldown > hero.abilities.W.cooldown - (hero.abilities.W.duration || 0)
 
   return (
-    <group
-      ref={meshRef}
-      position={[hero.position.x, 0, hero.position.z]}
-    >
+    <>
+      {/* Movement target indicator */}
+      {moveTarget && hero.isMoving && (
+        <group ref={targetIndicatorRef} position={[moveTarget.x, 0.1, moveTarget.z]}>
+          <mesh rotation={[-Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[0.3, 0.5, 32]} />
+            <meshBasicMaterial color="#00ff88" transparent opacity={0.8} />
+          </mesh>
+          <mesh rotation={[-Math.PI / 2, 0, 0]}>
+            <ringGeometry args={[0.1, 0.2, 32]} />
+            <meshBasicMaterial color="#00ffaa" transparent opacity={0.9} />
+          </mesh>
+        </group>
+      )}
+
+      <group
+        ref={meshRef}
+        position={[hero.position.x, 0, hero.position.z]}
+      >
       {/* Body */}
       <mesh position={[0, 0.8, 0]} castShadow>
         <capsuleGeometry args={[0.3, 0.8, 8, 16]} />
@@ -138,5 +220,6 @@ export function HeroRenderer() {
         <meshBasicMaterial color="#3366ff" transparent opacity={0.1} />
       </mesh>
     </group>
+    </>
   )
 }

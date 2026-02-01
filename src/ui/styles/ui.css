@@ -1,3 +1,82 @@
+/* Game Container */
+.game-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Loading Screen */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 50%, #0a0a1a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-content {
+  text-align: center;
+  color: #ffffff;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+.loading-title {
+  font-size: 48px;
+  font-weight: bold;
+  margin: 0;
+  background: linear-gradient(135deg, #6666ff, #ff66ff, #ffaa00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 0 40px rgba(102, 102, 255, 0.5);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    filter: drop-shadow(0 0 20px rgba(102, 102, 255, 0.5));
+  }
+  to {
+    filter: drop-shadow(0 0 40px rgba(255, 102, 255, 0.5));
+  }
+}
+
+.loading-subtitle {
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 8px 0 32px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 16px;
+  border: 3px solid rgba(100, 100, 255, 0.2);
+  border-top-color: #6666ff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
 /* Base styles */
 .ui-panel {
   position: absolute;
@@ -118,88 +197,178 @@
 .hero-panel {
   bottom: 16px;
   right: 16px;
-  width: 200px;
+  width: 240px;
+  padding: 16px;
 }
 
 .hero-header {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 .hero-portrait {
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   background: linear-gradient(135deg, #3366ff, #0033cc);
+  border: 2px solid rgba(100, 150, 255, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 26px;
+  box-shadow: 0 0 15px rgba(51, 102, 255, 0.3);
+}
+
+.hero-info {
+  flex: 1;
 }
 
 .hero-info h3 {
   margin: 0;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(100, 150, 255, 0.5);
 }
 
 .hero-health-bar {
-  height: 6px;
-  background: #333;
-  border-radius: 3px;
-  margin-top: 4px;
+  height: 14px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 7px;
+  margin-top: 6px;
   overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(100, 100, 100, 0.3);
 }
 
 .hero-health-fill {
   height: 100%;
   background: linear-gradient(90deg, #44ff44, #00cc00);
-  transition: width 0.2s;
+  transition: width 0.3s ease-out;
+  box-shadow: 0 0 10px rgba(68, 255, 68, 0.5);
+}
+
+.hero-health-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .hero-abilities {
   display: flex;
   gap: 8px;
+  margin-bottom: 12px;
 }
 
 .ability-button {
   flex: 1;
-  height: 50px;
-  background: rgba(40, 40, 80, 0.8);
+  height: 70px;
+  background: rgba(30, 30, 60, 0.9);
   border: 2px solid rgba(100, 100, 255, 0.3);
-  border-radius: 6px;
+  border-radius: 8px;
   color: #fff;
   cursor: pointer;
   position: relative;
   overflow: hidden;
   transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px;
 }
 
-.ability-button:hover:not(.on-cooldown) {
-  background: rgba(60, 60, 120, 0.9);
-  border-color: rgba(100, 100, 255, 0.6);
+.ability-button.ready {
+  border-color: var(--ability-color, rgba(100, 100, 255, 0.5));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--ability-color) 30%, transparent);
+}
+
+.ability-button.ready:hover {
+  background: rgba(50, 50, 100, 0.9);
+  border-color: var(--ability-color, rgba(100, 100, 255, 0.8));
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px color-mix(in srgb, var(--ability-color) 50%, transparent);
 }
 
 .ability-button.on-cooldown {
-  opacity: 0.6;
+  opacity: 0.8;
   cursor: not-allowed;
+  border-color: rgba(80, 80, 80, 0.5);
+}
+
+.ability-icon {
+  font-size: 20px;
+  line-height: 1;
 }
 
 .ability-key {
-  font-size: 16px;
+  font-size: 11px;
   font-weight: bold;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1px 6px;
+  border-radius: 3px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
 }
 
-.ability-cooldown {
+.ability-name {
+  font-size: 9px;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ability-cooldown-overlay {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.7);
+  transition: height 0.1s linear;
+}
+
+.ability-cooldown-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  z-index: 1;
+}
+
+.ability-ready-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--ability-color) 20%, transparent) 0%,
+    transparent 70%
+  );
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+.hero-controls-hint {
   font-size: 10px;
-  padding: 2px;
+  color: rgba(255, 255, 255, 0.5);
   text-align: center;
+  margin-top: 8px;
 }
 
 /* Wave Indicator */
@@ -219,6 +388,21 @@
   font-size: 12px;
   color: #aaaaaa;
   margin-top: 4px;
+}
+
+.wave-progress {
+  height: 4px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 2px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+
+.wave-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6666, #ffaa00);
+  transition: width 0.3s ease-out;
+  box-shadow: 0 0 8px rgba(255, 102, 102, 0.5);
 }
 
 .start-wave-button {
@@ -300,4 +484,416 @@
 .restart-button:hover {
   background: linear-gradient(135deg, #4477ff, #1144dd);
   transform: scale(1.05);
+}
+
+/* ==================== MOBILE RESPONSIVE STYLES ==================== */
+
+/* Tablet and below */
+@media (max-width: 1024px) {
+  .ui-panel {
+    padding: 10px;
+  }
+
+  .hud {
+    gap: 16px;
+  }
+
+  .hud-value {
+    font-size: 16px;
+  }
+
+  .tower-menu {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .tower-button {
+    width: 70px;
+    height: 80px;
+  }
+
+  .hero-panel {
+    width: 200px;
+    padding: 12px;
+  }
+
+  .ability-button {
+    height: 60px;
+  }
+}
+
+/* Mobile landscape and small tablets */
+@media (max-width: 768px) {
+  .ui-panel {
+    border-radius: 6px;
+    padding: 8px;
+  }
+
+  /* HUD - compact horizontal layout */
+  .hud {
+    top: 8px;
+    left: 8px;
+    gap: 12px;
+    padding: 8px 12px;
+  }
+
+  .hud-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 12px;
+  }
+
+  .hud-value {
+    font-size: 14px;
+  }
+
+  /* Wave indicator - smaller */
+  .wave-indicator {
+    top: 8px;
+    right: 8px;
+    padding: 8px 12px;
+  }
+
+  .wave-number {
+    font-size: 18px;
+  }
+
+  .wave-status {
+    font-size: 10px;
+  }
+
+  .start-wave-button {
+    padding: 6px 12px;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  /* Tower menu - bottom center, more compact */
+  .tower-menu {
+    bottom: 80px;
+    padding: 8px;
+    gap: 6px;
+  }
+
+  .tower-button {
+    width: 60px;
+    height: 70px;
+  }
+
+  .tower-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tower-name {
+    font-size: 8px;
+  }
+
+  .tower-cost {
+    font-size: 10px;
+  }
+
+  /* Hero panel - bottom right, compact */
+  .hero-panel {
+    bottom: 8px;
+    right: 8px;
+    width: 180px;
+    padding: 10px;
+  }
+
+  .hero-header {
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .hero-portrait {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+  }
+
+  .hero-info h3 {
+    font-size: 12px;
+  }
+
+  .hero-health-bar {
+    height: 12px;
+  }
+
+  .hero-health-text {
+    font-size: 9px;
+  }
+
+  .hero-abilities {
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+
+  .ability-button {
+    height: 55px;
+  }
+
+  .ability-icon {
+    font-size: 16px;
+  }
+
+  .ability-key {
+    font-size: 9px;
+    padding: 1px 4px;
+  }
+
+  .ability-name {
+    font-size: 8px;
+  }
+
+  .ability-cooldown-text {
+    font-size: 16px;
+  }
+
+  .hero-controls-hint {
+    font-size: 9px;
+  }
+
+  /* Game over - smaller */
+  .game-over-panel {
+    padding: 24px 32px;
+    margin: 16px;
+    max-width: 90vw;
+  }
+
+  .game-over-title {
+    font-size: 32px;
+  }
+
+  .game-over-score {
+    font-size: 18px;
+  }
+
+  .restart-button {
+    padding: 10px 24px;
+    font-size: 16px;
+  }
+}
+
+/* Mobile portrait */
+@media (max-width: 480px) {
+  /* HUD - very compact */
+  .hud {
+    top: 4px;
+    left: 4px;
+    gap: 8px;
+    padding: 6px 10px;
+  }
+
+  .hud-stat {
+    gap: 4px;
+  }
+
+  .hud-icon {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+
+  .hud-value {
+    font-size: 12px;
+  }
+
+  /* Wave indicator */
+  .wave-indicator {
+    top: 4px;
+    right: 4px;
+    padding: 6px 10px;
+  }
+
+  .wave-number {
+    font-size: 16px;
+  }
+
+  .wave-status {
+    font-size: 9px;
+  }
+
+  .start-wave-button {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+
+  /* Tower menu - horizontal scroll if needed */
+  .tower-menu {
+    bottom: 70px;
+    left: 4px;
+    right: 4px;
+    transform: none;
+    padding: 6px;
+    gap: 4px;
+    overflow-x: auto;
+    justify-content: center;
+  }
+
+  .tower-button {
+    width: 55px;
+    height: 65px;
+    flex-shrink: 0;
+  }
+
+  .tower-icon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .tower-name {
+    font-size: 7px;
+  }
+
+  .tower-cost {
+    font-size: 9px;
+  }
+
+  /* Hero panel - full width at bottom */
+  .hero-panel {
+    bottom: 4px;
+    left: 4px;
+    right: 4px;
+    width: auto;
+    padding: 8px;
+  }
+
+  .hero-header {
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .hero-portrait {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+
+  .hero-info h3 {
+    font-size: 11px;
+  }
+
+  .hero-health-bar {
+    height: 10px;
+  }
+
+  .hero-health-text {
+    font-size: 8px;
+  }
+
+  .hero-abilities {
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+
+  .ability-button {
+    height: 50px;
+  }
+
+  .ability-icon {
+    font-size: 14px;
+  }
+
+  .ability-key {
+    font-size: 8px;
+    padding: 0px 3px;
+    top: 2px;
+    left: 2px;
+  }
+
+  .ability-name {
+    font-size: 7px;
+  }
+
+  .ability-cooldown-text {
+    font-size: 14px;
+  }
+
+  .hero-controls-hint {
+    font-size: 8px;
+  }
+
+  /* Game over */
+  .game-over-panel {
+    padding: 20px 24px;
+  }
+
+  .game-over-title {
+    font-size: 28px;
+  }
+
+  .game-over-score {
+    font-size: 16px;
+  }
+
+  .restart-button {
+    padding: 8px 20px;
+    font-size: 14px;
+  }
+}
+
+/* Touch-friendly enhancements */
+@media (hover: none) and (pointer: coarse) {
+  .ability-button {
+    min-height: 44px;
+  }
+
+  .tower-button {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .start-wave-button {
+    min-height: 44px;
+    padding: 10px 20px;
+  }
+
+  .restart-button {
+    min-height: 44px;
+  }
+
+  /* Remove hover effects on touch devices */
+  .ability-button.ready:hover,
+  .tower-button:hover,
+  .start-wave-button:hover,
+  .restart-button:hover {
+    transform: none;
+  }
+
+  /* Add active states instead */
+  .ability-button.ready:active {
+    transform: scale(0.95);
+    background: rgba(50, 50, 100, 0.9);
+  }
+
+  .tower-button:active:not(.disabled) {
+    transform: scale(0.95);
+    background: rgba(60, 60, 120, 0.9);
+  }
+
+  .start-wave-button:active:not(:disabled) {
+    transform: scale(0.95);
+  }
+
+  .restart-button:active {
+    transform: scale(0.95);
+  }
+
+  .hero-controls-hint {
+    display: block;
+  }
+}
+
+/* Hide desktop-only hints on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .hero-controls-hint::before {
+    content: "Two-finger tap or long press to move";
+  }
+  .hero-controls-hint {
+    font-size: 0;
+  }
+  .hero-controls-hint::before {
+    font-size: 9px;
+  }
 }

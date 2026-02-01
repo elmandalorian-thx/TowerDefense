@@ -5,6 +5,7 @@ import { EnemyRenderer } from '../graphics/EnemyRenderer'
 import { TowerRenderer } from '../graphics/TowerRenderer'
 import { ProjectileRenderer } from '../graphics/ProjectileRenderer'
 import { HeroRenderer } from '../graphics/HeroRenderer'
+import { AbilityEffectsRenderer } from '../graphics/AbilityEffectsRenderer'
 import { GameManager } from './GameManager'
 import { useGameStore } from '../stores/gameStore'
 
@@ -34,6 +35,7 @@ export function Game() {
       <TowerRenderer />
       <ProjectileRenderer />
       <HeroRenderer />
+      <AbilityEffectsRenderer />
     </>
   )
 }
